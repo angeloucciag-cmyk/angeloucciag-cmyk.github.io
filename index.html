@@ -230,18 +230,20 @@
             </svg>
           </div>
           <div class="body">
-            <div class="meta mono"><span class="dot" style="background:#3572A5"></span>Python · ROS 2 Jazzy · Gazebo</div>
+            <div class="meta mono"><span class="dot" style="background:#3572A5"></span>Python · ROS 2 Jazzy · Gazebo · 2025-26</div>
             <h3>Multi-Robot Cooperative SLAM &amp; Exploration</h3>
-            <p class="desc">A ROS 2 multi-robot simulation in Gazebo: two differential-drive robots explore an unknown environment together, build a shared map via LiDAR SLAM and navigate while avoiding static obstacles and each other.</p>
+            <p class="desc">Two TurtleBot3 robots explore an unknown environment together in Gazebo. Each runs its own SLAM and Nav2 stack, and their local maps are merged into one global map.</p>
             <ul class="highlights">
-              <li>Frontier-based autonomous exploration per robot</li>
-              <li>LiDAR SLAM with merging of the individual maps into a global map</li>
-              <li>Nav2 navigation with inter-robot collision avoidance</li>
-              <li>Fully containerized with Docker</li>
+              <li>Namespaced multi-robot setup: separate topics, TF trees and Nav2 stacks</li>
+              <li>Frontier-based autonomous exploration (explore_lite) per robot</li>
+              <li>Custom laser filter so robots don't map each other as obstacles</li>
+              <li>Map merging with known and unknown initial poses, with fixes contributed to m-explore-ros2</li>
             </ul>
-            <div class="tags"><span class="tag">ROS 2</span><span class="tag">SLAM</span><span class="tag">Nav2</span><span class="tag">Gazebo</span><span class="tag">Docker</span><span class="tag">multi-robot</span></div>
+            <div class="tags"><span class="tag">ROS 2</span><span class="tag">SLAM</span><span class="tag">Nav2</span><span class="tag">Gazebo</span><span class="tag">TurtleBot3</span><span class="tag">Docker</span></div>
             <div class="links">
               <a class="btn" href="https://github.com/angeloucciag-cmyk/Multi-Robot-Cooperative-SLAM-and-Exploration-with-ROS-2" target="_blank" rel="noopener">View code →</a>
+              <a class="btn" href="https://youtu.be/_Zu4zb48AzQ" target="_blank" rel="noopener">Video</a>
+              <a class="btn" href="https://github.com/angeloucciag-cmyk/Multi-Robot-Cooperative-SLAM-and-Exploration-with-ROS-2/blob/main/docs/report.pdf" target="_blank" rel="noopener">Report (PDF)</a>
             </div>
           </div>
         </article>
