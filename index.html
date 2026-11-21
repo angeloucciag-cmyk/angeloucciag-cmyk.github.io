@@ -207,32 +207,7 @@
 
         <!-- Multi-robot SLAM -->
         <article class="card">
-          <div class="media illus" aria-hidden="true">
-            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(255,255,255,.07)"/></pattern>
-                <radialGradient id="scanA"><stop offset="0" stop-color="#5b8cff" stop-opacity=".45"/><stop offset="1" stop-color="#5b8cff" stop-opacity="0"/></radialGradient>
-                <radialGradient id="scanB"><stop offset="0" stop-color="#2ee6a6" stop-opacity=".4"/><stop offset="1" stop-color="#2ee6a6" stop-opacity="0"/></radialGradient>
-              </defs>
-              <rect width="400" height="300" fill="url(#g)"/>
-              <!-- explored map walls -->
-              <g stroke="#e8ecf4" stroke-width="4" stroke-linecap="square" fill="none" opacity=".9">
-                <path d="M40 40H220V110"/><path d="M260 40H360V260H240"/><path d="M40 40V260H180"/>
-                <path d="M120 120H200V200"/><path d="M280 120V190H320"/>
-              </g>
-              <!-- unexplored area -->
-              <rect x="226" y="46" width="128" height="68" fill="rgba(0,0,0,.25)"/>
-              <!-- paths -->
-              <path d="M80 220C90 170 70 120 110 80S190 60 170 90" stroke="#5b8cff" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
-              <path d="M300 230C260 230 240 200 250 160S300 150 300 140" stroke="#2ee6a6" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
-              <!-- robots with lidar -->
-              <circle cx="170" cy="90" r="54" fill="url(#scanA)"/>
-              <circle cx="300" cy="140" r="54" fill="url(#scanB)"/>
-              <g><circle cx="170" cy="90" r="11" fill="#5b8cff" stroke="#fff" stroke-width="2"/><path d="M170 90L181 90" stroke="#fff" stroke-width="2.5"/></g>
-              <g><circle cx="300" cy="140" r="11" fill="#2ee6a6" stroke="#fff" stroke-width="2"/><path d="M300 140L300 129" stroke="#fff" stroke-width="2.5"/></g>
-              <text x="20" y="288" fill="rgba(255,255,255,.55)" font-family="JetBrains Mono, monospace" font-size="11">/map_merged · robot1 · robot2</text>
-            </svg>
-          </div>
+          <div class="media"><img src="assets/img/slam-gazebo-map.jpg" alt="Two TurtleBot3 robots in the Gazebo TurtleBot3 world, with the merged map built by cooperative SLAM" loading="lazy"></div>
           <div class="body">
             <div class="meta mono"><span class="dot" style="background:#3572A5"></span>Python · ROS 2 Jazzy · Gazebo · 2025-26</div>
             <h3>Multi-Robot Cooperative SLAM &amp; Exploration</h3>
