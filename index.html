@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Angelo Gregucci — Robotics Portfolio</title>
+  <meta name="description" content="Robotics and control projects by Angelo Gregucci, MSc student in Automation Engineering at Politecnico di Bari.">
+  <meta property="og:title" content="Angelo Gregucci — Robotics Portfolio">
+  <meta property="og:description" content="Robotics, motion planning and control projects: MATLAB, ROS 2, manipulators and mobile robots.">
+  <meta property="og:image" content="https://angeloucciag-cmyk.github.io/assets/img/puma-workspace.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b5cff'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' fill='white' text-anchor='middle'%3EAG%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-2: #f0f2f6;
+      --text: #0f1729;
+      --muted: #5b6478;
+      --border: #e3e7ee;
+      --accent: #0b5cff;
+      --accent-soft: #e8efff;
+      --shadow: 0 1px 2px rgba(15,23,41,.04), 0 8px 24px rgba(15,23,41,.06);
+      --grid: rgba(15,23,41,.05);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b0f17;
+        --surface: #121826;
+        --surface-2: #182033;
+        --text: #e8ecf4;
+        --muted: #98a2b8;
+        --border: #232c40;
+        --accent: #5b8cff;
+        --accent-soft: #1a2540;
+        --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+        --grid: rgba(255,255,255,.04);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    nav .brand { font-weight: 700; text-decoration: none; letter-spacing: -.01em; }
+    nav ul { list-style: none; display: flex; gap: 24px; }
+    nav ul a { text-decoration: none; color: var(--muted); font-size: .93rem; font-weight: 500; }
+    nav ul a:hover { color: var(--text); }
+
+    /* Hero */
+    header.hero {
+      position: relative; overflow: hidden;
+      padding: 88px 0 72px;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 32px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-inner { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: center; }
+    .avatar {
+      width: 132px; height: 132px; border-radius: 28px; object-fit: cover;
+      border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--surface);
+    }
+    .eyebrow { color: var(--accent); font-size: .85rem; font-weight: 500; letter-spacing: .02em; margin-bottom: 10px; }
+    h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.1; letter-spacing: -.03em; font-weight: 800; }
+    .lead { margin-top: 16px; font-size: 1.12rem; color: var(--muted); max-width: 620px; }
+    .actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: .95rem;
+      text-decoration: none; border: 1px solid var(--border); background: var(--surface);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: var(--accent); }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn svg { width: 18px; height: 18px; }
+
+    /* Sections */
+    section { padding: 72px 0; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+    h2 { font-size: 1.75rem; letter-spacing: -.02em; font-weight: 700; }
+    .section-head p { color: var(--muted); }
+
+    /* Projects */
+    .projects { display: grid; gap: 28px; }
+    .card {
+      display: grid; grid-template-columns: 1.05fr 1fr;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 18px; overflow: hidden; box-shadow: var(--shadow);
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); transform: translateY(-2px); }
+    .card:nth-child(even) .media { order: 2; }
+    .media { background: #fff; min-height: 280px; position: relative; border-right: 1px solid var(--border); }
+    .card:nth-child(even) .media { border-right: 0; border-left: 1px solid var(--border); }
+    .media img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
+    .media.illus { background: linear-gradient(135deg, #0d1b3d, #12306b); }
+    .media.illus svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .body { padding: 30px 30px 28px; display: flex; flex-direction: column; }
+    .meta { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: .82rem; margin-bottom: 10px; flex-wrap: wrap; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .card h3 { font-size: 1.32rem; line-height: 1.3; letter-spacing: -.015em; margin-bottom: 10px; }
+    .card p.desc { color: var(--muted); font-size: .97rem; }
+    .highlights { margin: 16px 0 0 0; list-style: none; display: grid; gap: 6px; }
+    .highlights li { position: relative; padding-left: 20px; font-size: .93rem; }
+    .highlights li::before { content: ""; position: absolute; left: 4px; top: .62em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .tag { font-size: .75rem; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+    .links { margin-top: auto; padding-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .links .btn { padding: 8px 14px; font-size: .88rem; }
+
+    /* Skills */
+    .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .skill { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+    .skill h4 { font-size: 1rem; margin-bottom: 12px; }
+    .skill .tags { margin-top: 0; }
+    .skill .tag { background: var(--surface-2); color: var(--text); }
+
+    /* About */
+    .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; }
+    .about p { color: var(--muted); margin-bottom: 12px; }
+    .edu { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+    .edu .k { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .edu .v { font-weight: 600; margin-bottom: 14px; }
+
+    footer { border-top: 1px solid var(--border); padding: 32px 0 44px; color: var(--muted); font-size: .9rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+    @media (max-width: 820px) {
+      .card, .card:nth-child(even) { grid-template-columns: 1fr; }
+      .card:nth-child(even) .media { order: 0; border-left: 0; }
+      .media { min-height: 220px; border-right: 0; border-bottom: 1px solid var(--border); }
+      .card:nth-child(even) .media { border-bottom: 1px solid var(--border); }
+      .skills, .about { grid-template-columns: 1fr; }
+      .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+      .avatar { width: 96px; height: 96px; border-radius: 22px; }
+      header.hero { padding: 56px 0 48px; }
+      nav ul { gap: 16px; }
+      .body { padding: 22px; }
+    }
+    @media (max-width: 420px) { nav ul li.hide-sm { display: none; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#">Angelo Gregucci</a>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li class="hide-sm"><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <img class="avatar" src="https://avatars.githubusercontent.com/u/268612163?v=4" alt="Angelo Gregucci">
+    <div>
+      <div class="eyebrow mono">// robotics · control · motion planning</div>
+      <h1>Angelo Gregucci</h1>
+      <p class="lead">MSc student in Automation Engineering at Politecnico di Bari, focusing on robotics. I work on manipulator control, trajectory optimization and multi-robot systems in MATLAB and ROS 2.</p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">View projects</a>
+        <a class="btn" href="https://github.com/angeloucciag-cmyk" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Projects</h2>
+        <p>Selected university projects. Code and reports on GitHub.</p>
+      </div>
+
+      <div class="projects">
+
+        <!-- Multi-robot SLAM -->
+        <article class="card">
+          <div class="media illus" aria-hidden="true">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(255,255,255,.07)"/></pattern>
+                <radialGradient id="scanA"><stop offset="0" stop-color="#5b8cff" stop-opacity=".45"/><stop offset="1" stop-color="#5b8cff" stop-opacity="0"/></radialGradient>
+                <radialGradient id="scanB"><stop offset="0" stop-color="#2ee6a6" stop-opacity=".4"/><stop offset="1" stop-color="#2ee6a6" stop-opacity="0"/></radialGradient>
+              </defs>
+              <rect width="400" height="300" fill="url(#g)"/>
+              <!-- explored map walls -->
+              <g stroke="#e8ecf4" stroke-width="4" stroke-linecap="square" fill="none" opacity=".9">
+                <path d="M40 40H220V110"/><path d="M260 40H360V260H240"/><path d="M40 40V260H180"/>
+                <path d="M120 120H200V200"/><path d="M280 120V190H320"/>
+              </g>
+              <!-- unexplored area -->
+              <rect x="226" y="46" width="128" height="68" fill="rgba(0,0,0,.25)"/>
+              <!-- paths -->
+              <path d="M80 220C90 170 70 120 110 80S190 60 170 90" stroke="#5b8cff" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
+              <path d="M300 230C260 230 240 200 250 160S300 150 300 140" stroke="#2ee6a6" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>
+              <!-- robots with lidar -->
+              <circle cx="170" cy="90" r="54" fill="url(#scanA)"/>
+              <circle cx="300" cy="140" r="54" fill="url(#scanB)"/>
+              <g><circle cx="170" cy="90" r="11" fill="#5b8cff" stroke="#fff" stroke-width="2"/><path d="M170 90L181 90" stroke="#fff" stroke-width="2.5"/></g>
+              <g><circle cx="300" cy="140" r="11" fill="#2ee6a6" stroke="#fff" stroke-width="2"/><path d="M300 140L300 129" stroke="#fff" stroke-width="2.5"/></g>
+              <text x="20" y="288" fill="rgba(255,255,255,.55)" font-family="JetBrains Mono, monospace" font-size="11">/map_merged · robot1 · robot2</text>
+            </svg>
+          </div>
+          <div class="body">
+            <div class="meta mono"><span class="dot" style="background:#3572A5"></span>Python · ROS 2 Jazzy · Gazebo</div>
+            <h3>Multi-Robot Cooperative SLAM &amp; Exploration</h3>
+            <p class="desc">A ROS 2 multi-robot simulation in Gazebo: two differential-drive robots explore an unknown environment together, build a shared map via LiDAR SLAM and navigate while avoiding static obstacles and each other.</p>
+            <ul class="highlights">
+              <li>Frontier-based autonomous exploration per robot</li>
+              <li>LiDAR SLAM with merging of the individual maps into a global map</li>
+              <li>Nav2 navigation with inter-robot collision avoidance</li>
+              <li>Fully containerized with Docker</li>
+            </ul>
+            <div class="tags"><span class="tag">ROS 2</span><span class="tag">SLAM</span><span class="tag">Nav2</span><span class="tag">Gazebo</span><span class="tag">Docker</span><span class="tag">multi-robot</span></div>
+            <div class="links">
+              <a class="btn" href="https://github.com/angeloucciag-cmyk/Multi-Robot-Cooperative-SLAM-and-Exploration-with-ROS-2" target="_blank" rel="noopener">View code →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- PUMA 560 -->
+        <article class="card">
+          <div class="media"><img src="assets/img/puma-workspace.jpg" alt="PUMA 560 workspace manipulability map (Yoshikawa index)" loading="lazy"></div>
+          <div class="body">
+            <div class="meta mono"><span class="dot" style="background:#e16737"></span>MATLAB · Robotics Toolbox · 2025-26</div>
+            <h3>PD Control with Gravity Compensation — PUMA 560</h3>
+            <p class="desc">Operational-space PD controller with gravity compensation that holds the PUMA 560 at a desired pose with maximum payload (2.5 kg) under a −90 N external disturbance, with realistic sensor and actuator models.</p>
+            <ul class="highlights">
+              <li>Operating pose chosen by maximizing the Yoshikawa manipulability index</li>
+              <li>Gain tuning from operational-space inertia Λ(q) for mass-spring-damper behavior</li>
+              <li>Euler ZYZ vs axis-angle: avoids representation singularities</li>
+              <li>Motor currents verified within the real actuator limits</li>
+            </ul>
+            <div class="tags"><span class="tag">control</span><span class="tag">manipulators</span><span class="tag">dynamics</span><span class="tag">MATLAB</span></div>
+            <div class="links">
+              <a class="btn" href="https://github.com/angeloucciag-cmyk/puma560-pd-gravity-compensation" target="_blank" rel="noopener">View code →</a>
+              <a class="btn" href="https://github.com/angeloucciag-cmyk/puma560-pd-gravity-compensation/blob/main/docs/Robotics_I_project_Gregucci_Li_Begolis.pdf" target="_blank" rel="noopener">Report (PDF)</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Ned2 CHOMP -->
+        <article class="card">
+          <div class="media"><img src="assets/img/ned2-spheres.jpg" alt="Niryo Ned2 and shelf approximated by spheres for CHOMP" loading="lazy"></div>
+          <div class="body">
+            <div class="meta mono"><span class="dot" style="background:#e16737"></span>MATLAB · Robotics System Toolbox · 2024-25</div>
+            <h3>Obstacle Avoidance with Niryo Ned2 using CHOMP</h3>
+            <p class="desc">Pick-and-place motion planning for the Niryo Ned2: CHOMP turns minimum-jerk initial guesses into smooth, collision-free joint trajectories around a shelf. The project then stress-tests the limits of its sphere-based collision model.</p>
+            <ul class="highlights">
+              <li>Workspace analysis with the Yoshikawa index to pick and place targets</li>
+              <li>Covariant gradient-descent optimization of smoothness + obstacle cost</li>
+              <li>Shows how sphere over-approximation turns feasible motions into collisions</li>
+            </ul>
+            <div class="tags"><span class="tag">motion planning</span><span class="tag">trajectory optimization</span><span class="tag">CHOMP</span><span class="tag">MATLAB</span></div>
+            <div class="links">
+              <a class="btn" href="https://github.com/angeloucciag-cmyk/Obstacle-avoidance-with-Ned2-manipulator-using-CHOMP-optimizer" target="_blank" rel="noopener">View code →</a>
+              <a class="btn" href="https://github.com/angeloucciag-cmyk/Obstacle-avoidance-with-Ned2-manipulator-using-CHOMP-optimizer/blob/main/docs/Tesina_Team_A1-9.pdf" target="_blank" rel="noopener">Report (PDF)</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><h2>Skills</h2></div>
+      <div class="skills">
+        <div class="skill">
+          <h4>Robotics</h4>
+          <div class="tags"><span class="tag">kinematics &amp; dynamics</span><span class="tag">motion planning</span><span class="tag">trajectory optimization</span><span class="tag">SLAM</span><span class="tag">navigation</span></div>
+        </div>
+        <div class="skill">
+          <h4>Control</h4>
+          <div class="tags"><span class="tag">operational-space control</span><span class="tag">PD / PID tuning</span><span class="tag">dynamical systems</span><span class="tag">simulation</span></div>
+        </div>
+        <div class="skill">
+          <h4>Tools</h4>
+          <div class="tags"><span class="tag">MATLAB</span><span class="tag">ROS 2</span><span class="tag">Gazebo</span><span class="tag">Python</span><span class="tag">C / C++</span><span class="tag">Docker</span><span class="tag">Git</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><h2>About</h2></div>
+      <div class="about">
+        <div>
+          <p>I'm an Automation Engineering master's student at Politecnico di Bari with a strong interest in robotics: from modeling and control of industrial manipulators to motion planning and cooperative mobile robots.</p>
+          <p>My projects typically go from the theory to a working simulation. I model the system, design and tune the algorithm, then check that the results are physically feasible.</p>
+        </div>
+        <div class="edu">
+          <div class="k">Education</div>
+          <div class="v">MSc Automation Engineering<br><span style="font-weight:400;color:var(--muted)">Politecnico di Bari</span></div>
+          <div class="k">Focus</div>
+          <div class="v" style="margin-bottom:0">Robotics · Control · Motion planning</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Angelo Gregucci</span>
+    <a href="https://github.com/angeloucciag-cmyk" target="_blank" rel="noopener">github.com/angeloucciag-cmyk</a>
+  </div>
+</footer>
+
+</body>
+</html>
